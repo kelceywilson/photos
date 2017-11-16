@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 // const cookieParser = require('cookie-parser');
+const { upVote, downVote } = require('./db/db.js')
 
 const routes = require('./routes/routes.js');
 const logger = require('morgan');

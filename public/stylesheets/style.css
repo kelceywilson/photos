@@ -1,0 +1,13 @@
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+}
+#up, #down {
+  font-size: 100px;
+  margin: 10px;
+}

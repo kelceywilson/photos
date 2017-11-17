@@ -11,3 +11,11 @@
   font-size: 100px;
   margin: 10px;
 }
+
+img {
+  cursor: pointer;
+  border: 1px solid white;
+}
+img:hover {
+  border: 1px solid blue;
+}

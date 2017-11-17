@@ -1,23 +1,20 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-// const cookieParser = require('cookie-parser');
-const { upVote, downVote } = require('./db/db.js')
 
 const routes = require('./routes/routes.js');
 const logger = require('morgan');
-// const jsonParser = require('body-parser').json;
 
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(cookieParser());
+app.use(bodyParser.json());
+
 app.use('/static', express.static('public'));
 
 app.set('view engine', 'pug');
 
 app.use(routes);
 app.use(logger('dev'));
-// app.use(jsonParser());
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

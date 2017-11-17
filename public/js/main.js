@@ -33,7 +33,7 @@ image.addEventListener('click', function(){
   clearDownVote()
 })
 
-function update(data) {
+function voteSave(data) {
   console.log('fetching');
   console.log('data', data)
   return fetch('/votes', {
@@ -56,7 +56,7 @@ function update(data) {
 thumbsUp.addEventListener('click', function(){
   upVote()
   clearDownVote()
-  let votesUpdate = update(1)
+  let votesUpdate = voteSave(1)
     .then((election)=>{
 
       console.log(election);

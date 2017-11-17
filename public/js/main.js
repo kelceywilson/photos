@@ -2,6 +2,7 @@
 const image = document.getElementById('image');
 const thumbsUp = document.getElementById('up');
 const thumbsDown = document.getElementById('down');
+const electionUpdate = document.getElementById('electionUpdate')
 const upVote = () => {
   thumbsUp.classList.add('fa-thumbs-up')
   thumbsUp.classList.remove('fa-thumbs-o-up')
@@ -23,10 +24,10 @@ const clearUpVote = () => {
 //   // use random number from image.src?
 //   console.log('unvote');
 // }
-let randomNumber = 0
+let randomNumber
 
 image.addEventListener('click', function(){
-  let randomNumber = Math.round(Math.random() * 49)
+  randomNumber = Math.round(Math.random() * 49)
   image.src = "https://picsum.photos/800/500/?image=" + randomNumber
   clearUpVote()
   clearDownVote()
@@ -43,14 +44,24 @@ function update(data) {
     },
     body: JSON.stringify({id: 1})
   })
-  .then(()=>console.log('updated!!!'))
+  .then(updatedVoteCount => updatedVoteCount.json())
+  // .then((votes) => {
+  //   console.log('votes', votes);
+  //
+  // })
+  // .then((votes)=> votes.body )
 }
 
 // addEventListeners to thumbs to alter appearance when clicked
 thumbsUp.addEventListener('click', function(){
   upVote()
   clearDownVote()
-  update(1)
+  let votesUpdate = update(1)
+    .then((election)=>{
+
+      console.log(election);
+      electionUpdate.innerHTML = `Upvotes: ${election.upvotes}\nDownvotes: ${election.downvotes}`
+    })
 })
 
 thumbsDown.addEventListener('click', function(){

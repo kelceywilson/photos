@@ -24,41 +24,45 @@ const clearUpVote = () => {
 //   // use random number from image.src?
 //   console.log('unvote');
 // }
+//
 let randomNumber
-
-image.addEventListener('click', function(){
+const newImage = () => {
   randomNumber = Math.round(Math.random() * 49)
   image.src = "https://picsum.photos/800/500/?image=" + randomNumber
+  return randomNumber
+}
+image.addEventListener('click', function(){
+  // randomNumber = Math.round(Math.random() * 49)
+  // image.src = "https://picsum.photos/800/500/?image=" + randomNumber
+  randomNumber = newImage()
   clearUpVote()
   clearDownVote()
+  electionUpdate.innerHTML = ''
 })
 
-function voteSave(data) {
+function voteSave(direction) {
   console.log('fetching');
-  console.log('data', data)
+  console.log('data', randomNumber)
   return fetch('/votes', {
     method: 'put',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({id: 1})
+    body: JSON.stringify({
+      id: randomNumber,
+      direction: direction
+    })
   })
   .then(updatedVoteCount => updatedVoteCount.json())
-  // .then((votes) => {
-  //   console.log('votes', votes);
-  //
-  // })
-  // .then((votes)=> votes.body )
 }
 
 // addEventListeners to thumbs to alter appearance when clicked
 thumbsUp.addEventListener('click', function(){
   upVote()
   clearDownVote()
-  let votesUpdate = voteSave(1)
+  voteSave('upvotes')
     .then((election)=>{
-
       console.log(election);
       electionUpdate.innerHTML = `Upvotes: ${election.upvotes}\nDownvotes: ${election.downvotes}`
     })
@@ -67,8 +71,20 @@ thumbsUp.addEventListener('click', function(){
 thumbsDown.addEventListener('click', function(){
   downVote()
   clearUpVote()
+  voteSave('downvotes')
+    .then((election)=>{
+      console.log(election);
+      electionUpdate.innerHTML = `Upvotes: ${election.upvotes}\nDownvotes: ${election.downvotes}`
+    })
 })
 
+document.onreadystatechange = () => {
+  if (document.readyState === 'complete') {
+    // document ready
+    randomNumber = newImage()
+
+  }
+};
 //
 //  and to display vote count after first clicked
 //    vote count should be stored in db

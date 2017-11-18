@@ -1,5 +1,5 @@
 CREATE TABLE votes (
   photo_id SERIAL PRIMARY KEY,
-  upVotes INTEGER DEFAULT 0,
-  downVotes INTEGER DEFAULT 0
+  upvotes INTEGER DEFAULT 0,
+  downvotes INTEGER DEFAULT 0
 );

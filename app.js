@@ -20,11 +20,15 @@ app.use(logger('dev'));
 app.use((req, res, next) => {
   const err = new Error('Not Found');
   err.status = 404;
+  // If you pass an error to next() and you do not handle it in an error handler, it will be handled by the built-in error handler; the error will be written to the client with the stack trace.
   next(err);
 });
 
 // error handler
 app.use((err, req, res, next) => {
+  if (res.headersSent) {
+    return next(err)
+  }
   res.status(err.status || 500);
   res.json({
     error: {
